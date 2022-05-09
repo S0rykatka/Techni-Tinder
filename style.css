@@ -13,6 +13,7 @@ body {
     -webkit-box-shadow: 0 0 2px silver; 
     -moz-box-shadow: 0 0 2px silver; 
     box-shadow: 0 0 2px silver;
+    border-radius: 10px;
 }
 form {
     margin: 0;
@@ -42,6 +43,7 @@ label {
     width: 360px;
     padding: 5px 20px;
     margin-top: 20px;
+    border-radius: 10px;
 }
 .check {
     display: inline;
