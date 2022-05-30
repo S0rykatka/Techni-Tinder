@@ -69,14 +69,3 @@ input[type="button"] {
     -moz-border-radius: 5px; 
     border-radius: 5px; 
 }
-.leftMenu {
-    background-color: white;
-    width: 500px;
-    height: 500px;
-}
-.rightMenu {
-    background-color: whitesmoke;
-    width: 500px;
-    height: 500px;
-    position: relative;
-}

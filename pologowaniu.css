@@ -1,0 +1,24 @@
+body {
+    background: linear-gradient(to right, rgb(123, 23, 177), rgb(250, 60, 209));
+}
+.leftMenu {
+    background-color: white;
+    width: 500px;
+    height: auto;
+    margin: auto;
+    height: auto;
+    padding: 15px;
+    margin-top: 100px;
+}
+.rightMenu {
+    display: block;
+    background-color: white;
+    width: 500px;
+    height: auto;
+    padding: 15px;
+    margin: auto;
+    margin-top: 100px;
+}
+input[type="button"] {
+    width: auto;
+}
