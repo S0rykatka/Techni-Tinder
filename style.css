@@ -1,6 +1,9 @@
 body {
     background: linear-gradient(to right, rgb(123, 23, 177), rgb(250, 60, 209));
 }
+h1{
+   font-size: 80px;
+}
 .panel {
     width: 400px; 
     margin: 0 auto;
@@ -51,17 +54,17 @@ label {
     font-size: 11px;
     padding: 5px;
 }
-input[type="submit"] {
-    width: 70px;
-    padding: 5px 13px;
+input[type="button"] {
+    width: auto;
+    padding: 5px 15px;
     border: 1px solid #005f85;
     color: white;
     text-shadow: 0 0 1px black;
     background: #98c9dc;
     position: relative;
-    left: 180px;
+    left: 100px;
 }
-#panel, input[type="submit"] {
+#panel, input[type="button"] {
     -webkit-border-radius: 5px; 
     -moz-border-radius: 5px; 
     border-radius: 5px; 
