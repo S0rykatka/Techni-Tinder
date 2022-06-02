@@ -2,7 +2,7 @@ const sql = require('mssql')
 
 const DB_USER = 'app'
 const DB_PWD = 'app'
-const DB_NAME = 'magazyn2022'
+const DB_NAME = 'TinderSzkolny'
 
 const sqlConfig = {
   user: DB_USER,

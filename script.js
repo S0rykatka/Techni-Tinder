@@ -1,3 +1,3 @@
 function Login() {
-    location.href ="./poLogowaniu.html ";
+    location.href ="./poLogowaniu.html";
 }
