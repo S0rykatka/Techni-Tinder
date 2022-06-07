@@ -19,22 +19,25 @@ async function login(req, res) {
     .input('Email', sql.VarChar(50), email)
     .input('Haslo', sql.VarChar(50), password)
     .query('SELECT * FROM Uzytkownicy WHERE Email = @Email AND Haslo = @Haslo')
-    // .query('SELECT 1')
 
     if (result.rowsAffected[0] === 1) {
       req.session.userLogin = login;
       res.render('profil');
     } else {
-      res.render('logowanie', { error: result.rowsAffected})
+      res.render('logowanie', { error: 'Logowanie nieudane'})
     }
   } catch (err) {
-    res.render('logowanie', { error: 'Logowani1e nieudane'})
+    res.render('logowanie', { error: 'Logowanie nieudane'})
+    console.error(err)
   }
 
 }
 
 function showIndex(req, res) {
   res.render('index')
+}
+function showHome(req, res){
+  res.render('home')
 }
 
 function logout(req, res) {
@@ -47,5 +50,6 @@ router.get('/', showIndex)
 router.get('/login', showLoginForm);
 router.post('/login', login);
 router.post('/logout', logout);
+router.post('/home', showHome);
 
 module.exports = router;
