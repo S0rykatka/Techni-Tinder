@@ -9,6 +9,7 @@
   "dependencies": {
     "debug": "~2.6.9",
     "express": "~4.16.1",
+    "express-handler": "^0.2.0",
     "express-session": "^1.17.2",
     "hbs": "~4.0.4",
     "http-errors": "~1.6.3",

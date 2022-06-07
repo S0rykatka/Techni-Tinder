@@ -1,8 +1,36 @@
-const express = require('express')
-const req = require('express/lib/request')
-const sql = require('mssql')
-const router = express.Router()
-const { request } = require('../database')
+// app modules and identifiers
+const express = require('express');
+// const app = express();
+// const hbs = require('express-handlebars')
+// const path = require('path');
+const router = express.Router();
+// const session = require('express-session');
+const req = require('express/lib/request');
+const { request } = require('../database');
+// const bodyParser = require('body-parser');
+const sql = require('mssql');
+const { DescribeParameterEncryptionResultSet1 } = require('tedious/lib/always-encrypted/types');
+// //const logger = require('morgan');
+// const port = 5500
+
+// // view engine setup
+// app.set('views', path.join(__dirname, 'views'));
+// app.set('view engine', 'hbs');
+
+// //app.use(logger('dev'));
+// app.use(express.json());
+// app.use(session({
+//   secret: 'iLoveSql',
+//   resave: false,
+//   saveUninitialized: false
+// }));
+// app.use(router);
+// app.use(express.urlencoded({
+//   extended: true
+// }))
+// app.use(express.static(path.join(__dirname, 'public')));
+
+//Functions
 
 async function showProducts(req, res) {
   let products = []
@@ -13,6 +41,7 @@ async function showProducts(req, res) {
 
     if (req.query.kategoria) {
       result = await dbRequest
+        .input('Kategoria', sql.VarChar(50), req.query.kategoria)
         .query('SELECT * FROM Produkty WHERE Kategoria = @Kategoria')
     } else {
       result = await dbRequest.query('SELECT * FROM Produkty')
@@ -71,8 +100,9 @@ async function deleteProduct(req, res) {
   showProducts(req, res)
 }
 
+
 async function showLoginForm(req, res) {
-  res.render('login', { title: 'Logowanie' })
+  res.render('logowanie')
 }
 
 async function login(req, res) {
@@ -104,8 +134,8 @@ function logout(req, res) {
   showProducts(req, res);
 }
 
-router.get('/', showProducts);
 router.get('/new-product', showNewProductForm);
+router.get('/', showProducts);
 router.post('/new-product', addNewProduct);
 router.post('/product/:id/delete', deleteProduct);
 router.get('/login', showLoginForm);
