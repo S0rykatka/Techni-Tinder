@@ -18,7 +18,7 @@ Wiek SMALLINT NOT NULL CHECK(Wiek >= 14),
 Klasa CHAR(2) NOT NULL,
 Opis TEXT NOT NULL,
 Email VARCHAR(MAX) NOT NULL,
-Haslo VARCHAR(MAX) NOT NULL,
+Haslo VARCHAR(MAX) NOT NULL
 )
 
 CREATE TABLE Oceny (
@@ -39,3 +39,7 @@ Lekcja6 VARCHAR(20),
 Lekcja7 VARCHAR(20),
 Lekcja8 VARCHAR(20)
 )
+
+INSERT INTO Uzytkownicy
+VALUES
+('admin', '123', 15, '1a', 'Fajny admin kochamy go', 'admin123@technischools.com', 'JebacRodrigo')
