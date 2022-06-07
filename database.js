@@ -13,7 +13,6 @@ const sqlConfig = {
     trustServerCertificate: true
   }
 }
-
 let pool = null
 
 async function connect() {
