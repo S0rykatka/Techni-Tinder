@@ -4,6 +4,7 @@ const req = require('express/lib/request');
 const { request } = require('../database');
 const sql = require('mssql');
 const { DescribeParameterEncryptionResultSet1 } = require('tedious/lib/always-encrypted/types');
+const async = require('hbs/lib/async');
 
 async function showLoginForm(req, res) {
   res.render('logowanie')
@@ -19,18 +20,39 @@ async function login(req, res) {
     .input('Email', sql.VarChar(50), email)
     .input('Haslo', sql.VarChar(50), password)
     .query('SELECT * FROM Uzytkownicy WHERE Email = @Email AND Haslo = @Haslo')
-    // .query('SELECT 1')
 
     if (result.rowsAffected[0] === 1) {
       req.session.userLogin = login;
       res.render('profil');
     } else {
-      res.render('logowanie', { error: result.rowsAffected})
+      res.render('logowanie', { error: 'Logowanie nieudane'})
     }
   } catch (err) {
     res.render('logowanie', { error: 'Logowani1e nieudane'})
   }
 
+}
+
+async function rejestracja(req, res) {
+  var { email, haslo, imie, nazwisko, wiek, klasa } = req.body;
+  console.log(email, haslo, imie, nazwisko, wiek, klasa)
+  try {
+    const dbRequest = await request()
+
+    const result = await dbRequest
+    .input('Email', sql.VarChar(50), email)
+    .input('Haslo', sql.VarChar(50), haslo)
+    .input('Imie', sql.VarChar(50), imie)
+    .input('Nazwisko', sql.VarChar(50), nazwisko)
+    .input('Wiek', sql.Int, wiek)
+    .input('Klasa', sql.Char(2), klasa)
+    .query('INSERT INTO Uzytkownicy VALUES (@Email, @Haslo, @Imie, @Nazwisko, @Wiek, @Klasa)')
+
+  res.render('Udało sie zarejestrować')
+  console.log('Udało sie zarejestrowac nowego użytkownika')
+  } catch(err) {
+    console.error(err)
+  }
 }
 
 function showIndex(req, res) {
@@ -43,9 +65,15 @@ function logout(req, res) {
   showProducts(req, res);
 }
 
+async function showRejestracja(req, res) {
+  res.render('rejestracja')
+}
+
 router.get('/', showIndex)
 router.get('/login', showLoginForm);
 router.post('/login', login);
 router.post('/logout', logout);
+router.get('/rejestracja', showRejestracja);
+router.post('/rejestracja', rejestracja);
 
 module.exports = router;
