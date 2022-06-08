@@ -7,6 +7,7 @@
     <title>Rejestracja</title>
 </head>
 <body>
+    {{ ok }}
     <form action="/rejestracja" method="POST">
         <label for="email">Email</label>
         <input type="text" name="email" id="email" required>
@@ -21,7 +22,7 @@
         <input type="text" name="nazwisko" id="nazwisko" required>
 
         <label for="wiek">Wiek</label>
-        <input type="text" name="wiek" id="wiek" required>
+        <input type="number" name="wiek" id="wiek" required>
 
         <label for="klasa">Klasa</label>
         <input type="text" name="klasa" id="klasa" required>

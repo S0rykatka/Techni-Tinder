@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const path = require("path")
 const req = require('express/lib/request');
 const { request } = require('../database');
 const sql = require('mssql');
@@ -36,6 +37,7 @@ async function login(req, res) {
 
 async function rejestracja(req, res) {
   var { email, haslo, imie, nazwisko, wiek, klasa } = req.body;
+  console.log(1, "1")
   console.log(email, haslo, imie, nazwisko, wiek, klasa)
   try {
     const dbRequest = await request()
@@ -47,10 +49,10 @@ async function rejestracja(req, res) {
     .input('Nazwisko', sql.VarChar(50), nazwisko)
     .input('Wiek', sql.Int, wiek)
     .input('Klasa', sql.Char(2), klasa)
-    .input('Opis', sql.Text, '')
+    .input('Opis', sql.Text, null)
     .query('INSERT INTO Uzytkownicy VALUES (@Imie, @Nazwisko, @Wiek, @Klasa, @Opis, @Email, @Haslo)')
 
-  res.render('Udało sie zarejestrować')
+  res.render('profil')
   console.log('Udało sie zarejestrowac nowego użytkownika')
   } catch(err) {
     console.error(err)
