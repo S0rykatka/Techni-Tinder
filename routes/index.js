@@ -28,7 +28,8 @@ async function login(req, res) {
       res.render('logowanie', { error: 'Logowanie nieudane'})
     }
   } catch (err) {
-    res.render('logowanie', { error: 'Logowani1e nieudane'})
+    res.render('logowanie', { error: 'Logowanie nieudane'})
+    console.error(err)
   }
 
 }
@@ -46,7 +47,8 @@ async function rejestracja(req, res) {
     .input('Nazwisko', sql.VarChar(50), nazwisko)
     .input('Wiek', sql.Int, wiek)
     .input('Klasa', sql.Char(2), klasa)
-    .query('INSERT INTO Uzytkownicy VALUES (@Email, @Haslo, @Imie, @Nazwisko, @Wiek, @Klasa)')
+    .input('Opis', sql.Text, '')
+    .query('INSERT INTO Uzytkownicy VALUES (@Imie, @Nazwisko, @Wiek, @Klasa, @Opis, @Email, @Haslo)')
 
   res.render('Udało sie zarejestrować')
   console.log('Udało sie zarejestrowac nowego użytkownika')
@@ -57,6 +59,9 @@ async function rejestracja(req, res) {
 
 function showIndex(req, res) {
   res.render('index')
+}
+function showHome(req, res){
+  res.render('home')
 }
 
 function logout(req, res) {
@@ -75,5 +80,6 @@ router.post('/login', login);
 router.post('/logout', logout);
 router.get('/rejestracja', showRejestracja);
 router.post('/rejestracja', rejestracja);
+router.post('/home', showHome);
 
 module.exports = router;
