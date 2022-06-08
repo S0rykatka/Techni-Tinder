@@ -60,7 +60,7 @@ async function rejestracja(req, res) {
 function showIndex(req, res) {
   res.render('index')
 }
-function showHome(req, res){
+async function showHome(req, res){
   res.render('home')
 }
 
@@ -80,6 +80,6 @@ router.post('/login', login);
 router.post('/logout', logout);
 router.get('/rejestracja', showRejestracja);
 router.post('/rejestracja', rejestracja);
-router.post('/home', showHome);
+router.get('/home', showHome);
 
 module.exports = router;
