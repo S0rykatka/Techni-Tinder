@@ -13,6 +13,7 @@ async function showLoginForm(req, res) {
 
 async function login(req, res) {
   var {email, password} = req.body;
+  let result;
   
   try {
     const dbRequest = await request()
@@ -20,10 +21,10 @@ async function login(req, res) {
     const result = await dbRequest
     .input('Email', sql.VarChar(50), email)
     .input('Haslo', sql.VarChar(50), password)
-    .query('SELECT * FROM Uzytkownicy WHERE Email = @Email AND Haslo = @Haslo')
+    .query('SELECT Imie FROM Uzytkownicy WHERE Email = @Email AND Haslo = @Haslo')
 
     if (result.rowsAffected[0] === 1) {
-      req.session.userLogin = login;
+      req.session.userImie = result.recordset[0]
       res.render('profil');
     } else {
       res.render('logowanie', { error: 'Logowanie nieudane'})
@@ -37,8 +38,6 @@ async function login(req, res) {
 
 async function rejestracja(req, res) {
   var { email, haslo, imie, nazwisko, wiek, klasa } = req.body;
-  console.log(1, "1")
-  console.log(email, haslo, imie, nazwisko, wiek, klasa)
   try {
     const dbRequest = await request()
 
