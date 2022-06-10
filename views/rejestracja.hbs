@@ -4,30 +4,35 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./stylesheets/index.css">
     <title>Rejestracja</title>
 </head>
 <body>
+    <h1>TECHNI-TINDER</h1>
     {{ error }}
-    <form action="/rejestracja" method="POST">
-        <label for="email">Email</label>
+    <form action="/rejestracja" method="POST" class="index">
+    <h2>Zarejestruj się</h2>
+        <label for="email">Email użytkownika:</label>
         <input type="text" name="email" id="email" required>
-
-        <label for="password">Haslo</label>
+        <br>
+        <label for="password">Hasło:</label>
         <input type="password" name="haslo" id="haslo" required>
-
-        <label for="imie">Imie</label>
+        <br>
+        <label for="imie">Imię:</label>
         <input type="text" name="imie" id="imie" required>
-
-        <label for="nazwisko">Nazwisko</label>
+        <br>
+        <label for="nazwisko">Nazwisko:</label>
         <input type="text" name="nazwisko" id="nazwisko" required>
-
-        <label for="wiek">Wiek</label>
+        <br>
+        <label for="wiek">Wiek:</label>
         <input type="number" name="wiek" id="wiek" required>
-
-        <label for="klasa">Klasa</label>
+        <br>
+        <label for="klasa">Klasa:</label>
         <input type="text" name="klasa" id="klasa" required>
-        
-        <input type="submit">
+        <br>
+        <br>
+        <br>
+        <input type="submit" class="submit_1">
     </form>
 </body>
 </html>
