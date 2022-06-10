@@ -7,10 +7,6 @@ const sql = require('mssql');
 const { DescribeParameterEncryptionResultSet1 } = require('tedious/lib/always-encrypted/types');
 const async = require('hbs/lib/async');
 
-async function showLoginForm(req, res) {
-  res.render('logowanie')
-}
-
 async function login(req, res) {
   var {email, password} = req.body;
   let result;
@@ -28,10 +24,10 @@ async function login(req, res) {
       console.log(req.session.userImie)
       res.render('profil', { imie: req.session.userImie});
     } else {
-      res.render('logowanie', { error: 'Logowanie nieudane'})
+      res.render('index', { error: 'Logowanie nieudane'})
     }
   } catch (err) {
-    res.render('logowanie', { error: 'Logowanie nieudane'})
+    res.render('index', { error: 'Logowanie nieudane'})
     console.error(err)
   }
 
@@ -94,9 +90,13 @@ async function showRejestracja(req, res) {
   res.render('rejestracja')
 }
 
-router.get('/', showIndex)
-router.get('/login', showLoginForm);
-router.post('/login', login);
+async function showProfil(req, res) {
+  res.render('profil')
+}
+
+router.get('/', showIndex);
+router.get('/profil', showProfil);
+router.post('/', login);
 router.post('/logout', logout);
 router.get('/rejestracja', showRejestracja);
 router.post('/rejestracja', rejestracja);
