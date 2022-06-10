@@ -24,8 +24,9 @@ async function login(req, res) {
     .query('SELECT Imie FROM Uzytkownicy WHERE Email = @Email AND Haslo = @Haslo')
 
     if (result.rowsAffected[0] === 1) {
-      req.session.userImie = result.recordset[0]
-      res.render('profil');
+      req.session.userImie = result.recordset[0].Imie;
+      console.log(req.session.userImie)
+      res.render('profil', { imie: req.session.userImie});
     } else {
       res.render('logowanie', { error: 'Logowanie nieudane'})
     }
@@ -37,6 +38,7 @@ async function login(req, res) {
 }
 
 async function rejestracja(req, res) {
+  let result;
   var { email, haslo, imie, nazwisko, wiek, klasa } = req.body;
   try {
     const dbRequest = await request()
@@ -49,9 +51,26 @@ async function rejestracja(req, res) {
     .input('Wiek', sql.Int, wiek)
     .input('Klasa', sql.Char(2), klasa)
     .input('Opis', sql.Text, null)
-    .query('INSERT INTO Uzytkownicy VALUES (@Imie, @Nazwisko, @Wiek, @Klasa, @Opis, @Email, @Haslo)')
+    .query('SELECT * FROM Uzytkownicy WHERE @Email = Email')
+    if (result.rowsAffected[0] === 1) {
+      res.render('rejestracja', { error: "Istnieje już taki użytkownik"})
+      return
+    }
+    else {
+      const dbRequest = await request()
 
-  res.render('profil')
+      const result = await dbRequest
+      .input('Email', sql.VarChar(50), email)
+      .input('Haslo', sql.VarChar(50), haslo)
+      .input('Imie', sql.VarChar(50), imie)
+      .input('Nazwisko', sql.VarChar(50), nazwisko)
+      .input('Wiek', sql.Int, wiek)
+      .input('Klasa', sql.Char(2), klasa)
+      .input('Opis', sql.Text, null)
+      .query('INSERT INTO Uzytkownicy VALUES (@Imie, @Nazwisko, @Wiek, @Klasa, @Opis, @Email, @Haslo)')
+    }
+
+  res.render('index'),
   console.log('Udało sie zarejestrowac nowego użytkownika')
   } catch(err) {
     console.error(err)

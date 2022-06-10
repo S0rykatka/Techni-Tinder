@@ -40,6 +40,5 @@ Lekcja7 VARCHAR(20),
 Lekcja8 VARCHAR(20)
 )
 
-INSERT INTO Uzytkownicy
-VALUES
-('admin', '123', 15, '1a', 'Fajny admin kochamy go', 'admin123@technischools.com', 'JebacRodrigo')
+INSERT INTO Uzytkownicy VALUES
+('Admin', 'Super', 16, '1a', null, 'admin123@technischools.com', 'FajnyAdmin123')
