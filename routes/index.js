@@ -66,7 +66,7 @@ async function rejestracja(req, res) {
       .query('INSERT INTO Uzytkownicy VALUES (@Imie, @Nazwisko, @Wiek, @Klasa, @Opis, @Email, @Haslo)')
     }
 
-  res.render('index'),
+  res.redirect('/', code=302)
   console.log('Udało sie zarejestrowac nowego użytkownika')
   } catch(err) {
     console.error(err)
