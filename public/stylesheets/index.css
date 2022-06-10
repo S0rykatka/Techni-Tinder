@@ -34,6 +34,10 @@ input[type="submit"]{
     margin-left: 175px;
     margin-top: -40px;
 }
+.submit_1{
+    width: 100px;
+    margin-left: 175px;
+}
 button{
     margin-bottom: 20px;
     width: 100px;
@@ -48,7 +52,7 @@ label {
     font-size: 16px;
     text-shadow: 0 0 1px silver;
 }
-#email, #password {
+#email, #haslo, #imie, #nazwisko, #wiek, #klasa {
     display: block;
     width: 250px; 
     margin: 0 auto;
