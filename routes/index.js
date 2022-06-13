@@ -35,7 +35,7 @@ async function login(req, res) {
 
 async function rejestracja(req, res) {
   let result;
-  var { email, haslo, imie, nazwisko, wiek, klasa } = req.body;
+  var { email, haslo, imie, nazwisko, wiek, klasa, zdjecie } = req.body;
   try {
     const dbRequest = await request()
 
@@ -47,6 +47,7 @@ async function rejestracja(req, res) {
     .input('Wiek', sql.Int, wiek)
     .input('Klasa', sql.Char(2), klasa)
     .input('Opis', sql.Text, null)
+    .input('Zdjecie', sql.VarChar(50), null)
     .query('SELECT * FROM Uzytkownicy WHERE @Email = Email')
     if (result.rowsAffected[0] === 1) {
       res.render('rejestracja', { error: "Istnieje już taki użytkownik"})
@@ -63,7 +64,8 @@ async function rejestracja(req, res) {
       .input('Wiek', sql.Int, wiek)
       .input('Klasa', sql.Char(2), klasa)
       .input('Opis', sql.Text, null)
-      .query('INSERT INTO Uzytkownicy VALUES (@Imie, @Nazwisko, @Wiek, @Klasa, @Opis, @Email, @Haslo)')
+      .input('Zdjecie', sql.VarChar(50), null)
+      .query('INSERT INTO Uzytkownicy VALUES (@Imie, @Nazwisko, @Wiek, @Klasa, @Opis, @Email, @Haslo, @Zdjecie)')
     }
 
   res.redirect('/', code=302)
@@ -73,6 +75,22 @@ async function rejestracja(req, res) {
   }
 }
 
+async function profil(req, res) {
+  let result;
+  var {zdjecie, opis} = req.body;
+  console.log(zdjecie, opis);
+
+  try {
+    const dbRequest = await request()
+
+    const result = await dbRequest
+    .input('Zdjecie', sql.VarChar(60), zdjecie)
+    .input('Opis', sql.Text, opis)
+    .query('UPDATE Uzytkownicy SET Opis = @Opis, Zdjecie = @Zdjecie')
+  } catch(err) {
+    console.error(err)
+  }  
+}
 function showIndex(req, res) {
   res.render('index')
 }
@@ -101,5 +119,6 @@ router.post('/logout', logout);
 router.get('/rejestracja', showRejestracja);
 router.post('/rejestracja', rejestracja);
 router.get('/home', showHome);
+router.post('/profil', profil)
 
 module.exports = router;
