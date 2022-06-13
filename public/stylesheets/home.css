@@ -1,17 +1,59 @@
+body {
+    background: linear-gradient(to right, rgb(123, 23, 177), rgb(250, 60, 209));
+}
 .opis{
-    margin-left: 125px;
+    margin-left: 10px;
+    font-size: 30px;
+    text-align: center;
+    background-color: rgb(55, 55, 55);
+    width: 300px;
+    height: 35px;
+    color: white;
+    border-radius: 5px;
+}
+.opis_1{
+    background-color: white;
+    width: 300px;
+    height: 500px;
+    margin-top: 10px;
+    border-radius: 5px;
 }
 .info_student{
-    text-align: right;
-    margin-right: 125px;
-    margin-top: -20px;
+    margin-left: 950px;
+    margin-top: -530px;
+    font-size: 30px;
+    text-align: center;
+    background-color: rgb(55, 55, 55);
+    width: 300px;
+    height: 35px;
+    color: white;
+    border-radius: 5px;
+}
+.info_student_1{
+    background-color: white;
+    width: 300px;
+    height: 500px;
+    margin-top: 10px;
+    border-radius: 5px;
 }
 .left{
-    margin-left: 475px;
+    margin-left: 375px;
 }
 .right{
     margin-left: 200px;
 }
 button{
-    margin-top: 10px;
+    margin-top: 500px;
+    width: 150px;
+    height: 25px;
+    /* height: 50px;
+    width: 150px;
+    background: grey;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    box-shadow: 0.2px 3px 10px 0.2px white;
+    border-radius: 10px;
+    justify-content: center;
+    align-items: center;  */
 }
