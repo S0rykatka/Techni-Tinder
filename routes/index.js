@@ -6,9 +6,10 @@ const { request } = require('../database');
 const sql = require('mssql');
 const { DescribeParameterEncryptionResultSet1 } = require('tedious/lib/always-encrypted/types');
 const async = require('hbs/lib/async');
+const e = require('express');
 
 async function login(req, res) {
-  var {email, password} = req.body;
+  var {email, haslo} = req.body;
   let result;
   
   try {
@@ -16,7 +17,7 @@ async function login(req, res) {
     
     const result = await dbRequest
     .input('Email', sql.VarChar(50), email)
-    .input('Haslo', sql.VarChar(50), password)
+    .input('Haslo', sql.VarChar(50), haslo)
     .query('SELECT Imie FROM Uzytkownicy WHERE Email = @Email AND Haslo = @Haslo')
 
     if (result.rowsAffected[0] === 1) {
@@ -90,6 +91,26 @@ async function profil(req, res) {
   } catch(err) {
     console.error(err)
   }  
+}
+
+async function randomPerson(req, res) {
+  let result;
+  var {id} = req.body;
+  let random = Math.floor(Math.random());
+
+  try {
+    const dbRequest = await request()
+
+    const result = await dbRequest
+    .query('SELECT Imie, Nazwisko, Wiek, Klasa, Opis, Zdjecie FROM Uzytkownicy')
+  } catch(err) {
+    console.log(err)
+  }
+}
+
+async function countLeftRight(req, res) {
+  let result;
+  var {left, right} = req.body;
 }
 function showIndex(req, res) {
   res.render('index')
