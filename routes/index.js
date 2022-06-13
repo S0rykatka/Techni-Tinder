@@ -18,11 +18,13 @@ async function login(req, res) {
     const result = await dbRequest
     .input('Email', sql.VarChar(50), email)
     .input('Haslo', sql.VarChar(50), haslo)
-    .query('SELECT Imie FROM Uzytkownicy WHERE Email = @Email AND Haslo = @Haslo')
+    .query('SELECT Imie, PK_IdUzytkownika FROM Uzytkownicy WHERE Email = @Email AND Haslo = @Haslo')
 
     if (result.rowsAffected[0] === 1) {
       req.session.userImie = result.recordset[0].Imie;
+      req.session.userId = result.recordset[0].PK_IdUzytkownika;
       console.log(req.session.userImie)
+      console.log(req.session.userId);
       res.render('profil', { imie: req.session.userImie});
     } else {
       res.render('index', { error: 'Logowanie nieudane'})
@@ -36,7 +38,7 @@ async function login(req, res) {
 
 async function rejestracja(req, res) {
   let result;
-  var { email, haslo, imie, nazwisko, wiek, klasa, zdjecie } = req.body;
+  var { email, haslo, imie, nazwisko, wiek, klasa } = req.body;
   try {
     const dbRequest = await request()
 
@@ -92,26 +94,53 @@ async function profil(req, res) {
     console.error(err)
   }  
 }
-
-async function randomPerson(req, res) {
+/*
+function randomPerson(req,res) {
   let result;
-  var {id} = req.body;
-  let random = Math.floor(Math.random());
-
   try {
     const dbRequest = await request()
 
     const result = await dbRequest
-    .query('SELECT Imie, Nazwisko, Wiek, Klasa, Opis, Zdjecie FROM Uzytkownicy')
+    .query('SELECT TOP 1 Imie, Nazwisko, Wiek, Klasa, Opis, Zdjecie FROM Uzytkownicy ORDER BY NEWID()')
+  } catch(err){
+    console.log(err)
+  }
+}
+*/
+async function usunProfil(req, res) {
+  let id = req.session?.userId;
+  try {
+    const dbRequest = await request()
+
+    const result = await dbRequest
+    .input('Id', sql.Int, req.session?.userId)
+    .query('DELETE FROM Uzytkownicy WHERE PK_IdUzytkownika = @Id')
+
+    res.render('index')
   } catch(err) {
     console.log(err)
   }
 }
 
-async function countLeftRight(req, res) {
-  let result;
-  var {left, right} = req.body;
+async function showUser(req, res) {
+  let data = [];
+  let id = req.session?.userId;
+  let klasa = req.query.klasa;
+
+  try {
+    const dbRequest = await request()
+    let result;
+
+    if (req.query.klasa) {
+      result = await dbRequest
+        .input('Klasa', sql.Char(2), req.query.klasa);
+        query('SELECT Imie, Nazwisko, Wiek, Klasa, Opis FROM Uzytkownicy WHERE Klasa= @Klasa')
+    }
+  } catch(err) {
+    console.log(err)
+  }
 }
+
 function showIndex(req, res) {
   res.render('index')
 }
@@ -133,6 +162,14 @@ async function showProfil(req, res) {
   res.render('profil')
 }
 
+async function showUsun(req, res) {
+  res.render('usun')
+}
+
+async function showUsersProfiles(req, res) {
+  res.render('profile')
+}
+
 router.get('/', showIndex);
 router.get('/profil', showProfil);
 router.post('/', login);
@@ -140,6 +177,10 @@ router.post('/logout', logout);
 router.get('/rejestracja', showRejestracja);
 router.post('/rejestracja', rejestracja);
 router.get('/home', showHome);
-router.post('/profil', profil)
+router.post('/profil', profil);
+router.get('/usun', showUsun);
+router.post('/usun', usunProfil);
+router.get('/profile', showUsersProfiles);
+router.post('/profile', showUser);
 
 module.exports = router;

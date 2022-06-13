@@ -8,7 +8,7 @@
     <title>Home</title>
 </head>
 <body>
-    <form>
+    <form action="/home" method="post">
         <div class="opis">
             opis
         </div>
@@ -16,8 +16,9 @@
             info
         </div>
         <center><img src="/img/Avatar.jpg"></center>
-        <button class="left">Left</button>
-        <button class="right">Right</button>
+        <input type="submit" class="left" value="left">
+        <input type="submit" class="right" value="right">
     </form>
+    {{ hm }}
 </body>
 </html>
