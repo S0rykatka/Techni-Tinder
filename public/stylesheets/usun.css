@@ -5,4 +5,16 @@ h1{
     font-size: 50px;
     text-align: center;
     margin-top: 20px;
- }
+}
+div{
+    background-color: white;
+    width: 200px;
+    height: 160px;
+    border-radius: 10px;
+}
+input[type='text']{
+    height: 100px;
+}
+input[type='submit']{
+    margin-top: 5px;
+}
