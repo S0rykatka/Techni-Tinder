@@ -121,26 +121,6 @@ async function usunProfil(req, res) {
     console.log(err)
   }
 }
-
-async function showUser(req, res) {
-  let data = [];
-  let id = req.session?.userId;
-  let klasa = req.query.klasa;
-
-  try {
-    const dbRequest = await request()
-    let result;
-
-    if (req.query.klasa) {
-      result = await dbRequest
-        .input('Klasa', sql.Char(2), req.query.klasa);
-        query('SELECT Imie, Nazwisko, Wiek, Klasa, Opis FROM Uzytkownicy WHERE Klasa= @Klasa')
-    }
-  } catch(err) {
-    console.log(err)
-  }
-}
-
 function showIndex(req, res) {
   res.render('index')
 }
@@ -167,7 +147,31 @@ async function showUsun(req, res) {
 }
 
 async function showUsersProfiles(req, res) {
-  res.render('profile')
+  let data = [];
+  let id = req.session?.userId;
+  let klasa = req.query.klasa;
+
+  try {
+    const dbRequest = await request()
+    let result;
+
+    if (req.query.klasa) {
+      result = await dbRequest
+        .input('Klasa', sql.Char(2), req.query.klasa)
+        .query('SELECT Imie, Nazwisko, Wiek, Klasa, Opis FROM Uzytkownicy WHERE Klasa= @Klasa')
+    } else {
+      result = await dbRequest
+        .query('SELECT Imie, Nazwisko, Wiek, Klasa, Opis FROM Uzytkownicy WHERE Klasa = "1a"')
+    }
+
+    data = result.recordset
+  } catch(err) {
+    console.log(err)
+  }
+
+  res.render('profile', {
+    data: data}
+  )
 }
 
 router.get('/', showIndex);
@@ -181,6 +185,5 @@ router.post('/profil', profil);
 router.get('/usun', showUsun);
 router.post('/usun', usunProfil);
 router.get('/profile', showUsersProfiles);
-router.post('/profile', showUser);
 
 module.exports = router;
