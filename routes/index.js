@@ -113,13 +113,14 @@ async function usunProfil(req, res) {
     const dbRequest = await request()
 
     const result = await dbRequest
-    .input('Id', sql.Int, req.session?.userId)
+    .input('Id', sql.Int, id)
     .query('DELETE FROM Uzytkownicy WHERE PK_IdUzytkownika = @Id')
+    console.log("Udalo sie usunac uzytkownika")
 
-    res.render('index')
   } catch(err) {
     console.log(err)
   }
+  res.render('index')
 }
 function showIndex(req, res) {
   res.render('index')
@@ -152,25 +153,28 @@ async function showUsersProfiles(req, res) {
   let klasa = req.query.klasa;
 
   try {
-    const dbRequest = await request()
-    let result;
+    // const dbRequest = await request()
+    // let result;
 
-    if (req.query.klasa) {
-      result = await dbRequest
-        .input('Klasa', sql.Char(2), req.query.klasa)
-        .query('SELECT Imie, Nazwisko, Wiek, Klasa, Opis FROM Uzytkownicy WHERE Klasa= @Klasa')
-    } else {
-      result = await dbRequest
-        .query('SELECT Imie, Nazwisko, Wiek, Klasa, Opis FROM Uzytkownicy WHERE Klasa = "1a"')
-    }
+    // if (req.query.klasa) {
+    //   result = await dbRequest
+    //     .input('Klasa', sql.Char(2), req.query.klasa)
+    //     .query('SELECT Imie, Nazwisko, Wiek, Klasa, Opis FROM Uzytkownicy WHERE Klasa= @Klasa')
+    // } else {
+    //   result = await dbRequest
+    //     .query('SELECT Imie, Nazwisko, Wiek, Klasa, Opis FROM Uzytkownicy WHERE Klasa = "1a"')
+    // }
 
-    data = result.recordset
+    // result = await dbRequest.query('SELECT * FROM Uzytkownicy')
+
+    // data = result.recordset
   } catch(err) {
     console.log(err)
   }
 
   res.render('profile', {
-    data: data}
+    data: data
+  }
   )
 }
 
