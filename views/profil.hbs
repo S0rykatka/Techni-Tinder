@@ -4,11 +4,13 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./stylesheets/profil.css">
     <title>Profil</title>
 </head>
 <body>
     <h1>Hej {{ imie }}</h1>
-    <form action="/profil" method="post">
+    <form action="/profil" method="post" class="form">
+        <img src="/img/Avatar.jpg">
         <label for="zdjecie">Wstaw ścieżkę zdjęcia:</label>
         <input type="text" name="zdjecie" id="zdjecie">
         <br>
@@ -16,7 +18,7 @@
         <input type="text" name="opis" id="opis">
         <br>
         <input type="submit">
+        <button class="button" onclick="window.location = 'http://localhost:3000/home'">Strona Główna</button>
     </form>
-    <button class="button" onclick="window.location = 'http://localhost:3000/home'">Strona Główna</button>
 </body>
 </html>
