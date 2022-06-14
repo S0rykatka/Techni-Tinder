@@ -30,14 +30,10 @@ body {
     border-radius: 5px;
     box-shadow: 0.2px 3px 10px 0.2px black;
 }
-.left{
-    margin-left: 375px;
-}
-.right{
-    margin-left: 200px;
-}
+
 button{
     margin-top: 500px;
+    margin-left: 550px;
     width: 150px;
     height: 25px;
     border-radius: 10px;
