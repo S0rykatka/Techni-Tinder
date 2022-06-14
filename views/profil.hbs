@@ -9,18 +9,20 @@
 </head>
 <body>
     <h1>Hej {{ imie }}</h1>
-    <form action="/profil" method="post" class="form">
+    <center><form action="/profil" method="post" class="form">
         <img src="/img/Avatar.jpg">
+        <br>
         <label for="zdjecie">Wstaw ścieżkę zdjęcia:</label>
         <input type="text" name="zdjecie" id="zdjecie">
         <br>
         <label for="opis">Napisz coś o sobie:</label>
+        <br>
         <input type="text" name="opis" id="opis">
         <br>
         <input type="submit">
-        <button class="button" onclick="window.location = 'http://localhost:3000/home'">Strona Główna</button>
-    </form>
-    <button class="button" onclick="window.location = 'http://localhost:3000/profile'">Strona Główna</button>
-    <button class="button" onclick="window.location = 'http://localhost:3000/usun'">Usun profil?</button>
+        
+    </form></center>
+        <center><button class="button" onclick="window.location = 'http://localhost:3000/profile'">Strona Główna</button></center>
+        <center><button class="button" onclick="window.location = 'http://localhost:3000/usun'">Usun profil?</button></center>
 </body>
 </html>
