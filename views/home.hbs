@@ -8,31 +8,34 @@
     <title>Home</title>
 </head>
 <body>
-    <form action="/home" method="post">
-        <div class="opis">
-            opis
-        </div>
-        <div class="info_student"> 
-            info
-        </div>
-        <center><img src="/img/Avatar.jpg"></center>
-        <input type="submit" class="left" value="left">
-        <input type="submit" class="right" value="right">
+    <form action="/home" method="get">
+    <thead>
+        <tr>
+            <th>Imie</th>
+            <th>Nazwisko</th>
+            <th>Wiek</th>
+            <th>Klasa</th>
+            <th>Opis</th>
+            <th>Zdjecie</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each data}}
+        <tr>
+            <td>{{ this.Imie }}</td>
+            <td>{{ this.Nazwisko }}</td>
+            <td>{{ this.Wiek }}</td>
+            <td>{{ this.Klasa }}</td>
+            <td>{{ this.Opis }}</td>
+            <td>{{ this.Zdjecie }}</td>
+        </tr>
+        {{/each}}
+    </tbody>
     </form>
-    {{ hm }}
-    <div class="opis">OPIS:
-        <div class="box"></div>
-    </div>
-    <center><img src="/img/Avatar.jpg"></center>
-    <div class="info_student">INFO:
-        <div class="box"></div>
-    </div>
-<<<<<<< HEAD
-    <button class="left">Left</button>
-    <button class="right">Right</button>
->>>>>>> 16060e37748fb275a2757c039135ca9ad88d7671
-=======
+    <form action="/home" method="post">
+        <button type="submit" value="left" name="click">left</button>
+        <button type="submit" value="right" name="click">right</button>
+    </form>
     <button class="button">Dalej</button>
->>>>>>> 3ee2a9d06f190ddf96467992442a595c0e0556ed
 </body>
 </html>

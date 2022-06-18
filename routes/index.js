@@ -8,6 +8,8 @@ const { DescribeParameterEncryptionResultSet1 } = require('tedious/lib/always-en
 const async = require('hbs/lib/async');
 const e = require('express');
 
+
+// logowanie
 async function login(req, res) {
   var {email, haslo} = req.body;
   let result;
@@ -36,6 +38,7 @@ async function login(req, res) {
 
 }
 
+// rejestracja
 async function rejestracja(req, res) {
   let result;
   var { email, haslo, imie, nazwisko, wiek, klasa } = req.body;
@@ -78,6 +81,7 @@ async function rejestracja(req, res) {
   }
 }
 
+// profil
 async function profil(req, res) {
   let result;
   var {zdjecie, opis} = req.body;
@@ -94,19 +98,8 @@ async function profil(req, res) {
     console.error(err)
   }  
 }
-/*
-function randomPerson(req,res) {
-  let result;
-  try {
-    const dbRequest = await request()
 
-    const result = await dbRequest
-    .query('SELECT TOP 1 Imie, Nazwisko, Wiek, Klasa, Opis, Zdjecie FROM Uzytkownicy ORDER BY NEWID()')
-  } catch(err){
-    console.log(err)
-  }
-}
-*/
+// delete
 async function usunProfil(req, res) {
   let id = req.session?.userId;
   try {
@@ -122,17 +115,40 @@ async function usunProfil(req, res) {
   }
   res.render('index')
 }
+
+async function homeFunction(req, res) {
+  let value = req.body.click;
+  try {
+    const dbRequest = await request()
+
+    const result = await dbRequest
+
+  } catch(err) {
+    console.log(err)
+  }
+}
+// show
 function showIndex(req, res) {
   res.render('index')
 }
-async function showHome(req, res){
-  res.render('home')
-}
+async function showHome(req, res) {
+  let data = [];
 
-function logout(req, res) {
-  req.session.destroy();
+  try {
+    const dbRequest = await request()
 
-  showProducts(req, res);
+    const result = await dbRequest
+    .input('imie', sql.VarChar(50), req.session?.userImie)
+    .query('SELECT TOP 1 * FROM Uzytkownicy ORDER BY NEWID()')
+    data = result.recordset;
+    console.log(data)
+  } catch(err){
+    console.log(err)
+  }
+  res.render('home', {
+    imie: req.session?.userImie,
+    data: data,
+  })
 }
 
 async function showRejestracja(req, res) {
@@ -147,47 +163,20 @@ async function showUsun(req, res) {
   res.render('usun')
 }
 
-async function showUsersProfiles(req, res) {
-  let data = [];
-  let id = req.session?.userId;
-  let klasa = req.query.klasa;
-
-  try {
-    // const dbRequest = await request()
-    // let result;
-
-    // if (req.query.klasa) {
-    //   result = await dbRequest
-    //     .input('Klasa', sql.Char(2), req.query.klasa)
-    //     .query('SELECT Imie, Nazwisko, Wiek, Klasa, Opis FROM Uzytkownicy WHERE Klasa= @Klasa')
-    // } else {
-    //   result = await dbRequest
-    //     .query('SELECT Imie, Nazwisko, Wiek, Klasa, Opis FROM Uzytkownicy WHERE Klasa = "1a"')
-    // }
-
-    // result = await dbRequest.query('SELECT * FROM Uzytkownicy')
-
-    // data = result.recordset
-  } catch(err) {
-    console.log(err)
-  }
-
-  res.render('profile', {
-    data: data
-  }
-  )
-}
-
+// index
 router.get('/', showIndex);
+// login
 router.get('/profil', showProfil);
 router.post('/', login);
-router.post('/logout', logout);
+// rejestracja
 router.get('/rejestracja', showRejestracja);
 router.post('/rejestracja', rejestracja);
+// home
 router.get('/home', showHome);
+router.post('/home', homeFunction);
+// profil
 router.post('/profil', profil);
 router.get('/usun', showUsun);
 router.post('/usun', usunProfil);
-router.get('/profile', showUsersProfiles);
 
 module.exports = router;
