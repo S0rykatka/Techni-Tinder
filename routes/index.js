@@ -7,6 +7,8 @@ const sql = require('mssql');
 const { DescribeParameterEncryptionResultSet1 } = require('tedious/lib/always-encrypted/types');
 const async = require('hbs/lib/async');
 const e = require('express');
+const { resourceUsage } = require('process');
+const { set } = require('../app');
 
 
 // logowanie
@@ -27,7 +29,11 @@ async function login(req, res) {
       req.session.userId = result.recordset[0].PK_IdUzytkownika;
       console.log(req.session.userImie)
       console.log(req.session.userId);
-      res.render('profil', { imie: req.session.userImie});
+      const result1 = await dbRequest
+      .input('Id', sql.Int, req.session.userId)
+      .query('SELECT COUNT(*) AS Prawyl FROM Oceny WHERE FK_IdOcenianego = @Id')
+      console.log(req.session.userId)
+      res.render('profil', { imie: req.session.userImie, prawe: result1.recordset[0].Prawyl, error: ""});
     } else {
       res.render('index', { error: 'Logowanie nieudane'})
     }
@@ -94,6 +100,9 @@ async function profil(req, res) {
     .input('Zdjecie', sql.VarChar(60), zdjecie)
     .input('Opis', sql.Text, opis)
     .query('UPDATE Uzytkownicy SET Opis = @Opis, Zdjecie = @Zdjecie')
+    const result1 = await dbRequest
+    .input('Id', sql.Int, req.session.PK_IdUzytkownika)
+    .query('SELECT COUNT(*) FROM Oceny WHERE FK_IdOcenianego = @Id')
   } catch(err) {
     console.error(err)
   }  
@@ -101,7 +110,7 @@ async function profil(req, res) {
 
 // delete
 async function usunProfil(req, res) {
-  let id = req.session?.userId;
+  let id = req.session.userId;
   try {
     const dbRequest = await request()
 
@@ -113,23 +122,48 @@ async function usunProfil(req, res) {
   } catch(err) {
     console.log(err)
   }
-  res.render('index')
+  res.redirect('/')
 }
 
 async function homeFunction(req, res) {
   let value = req.body.click;
+  let randomUser = req.session.userData;
+  let id = req.session.userId;
   try {
-    const dbRequest = await request()
+      const dbRequest = await request()
 
-    const result = await dbRequest
-
+      const results = await dbRequest
+      .input('Id_O', sql.Int, randomUser[0].PK_IdUzytkownika)
+      .input('Id_Y', sql.Int, id)
+      .input('Value', sql.VarChar(8), value)
+      .query('INSERT INTO Oceny VALUES (@Id_Y, @Id_O, @Value)')
+      if (value === "Prawy") {
+        const result = await dbRequest
+        .input('Id_O1', sql.Int, randomUser[0].PK_IdUzytkownika)
+        .input('Id_Y1', sql.Int, id)
+        .query('SELECT Oceny FROM Oceny WHERE FK_IdOceniajacego = @Id_O1 AND FK_IdOcenianego = @Id_Y1')
+        console.log(result)
+        if (result.recordset[0].Oceny === "Prawy") {
+          const result1 = await dbRequest
+          .input('Id_O2', sql.Int, randomUser[0].PK_IdUzytkownika)
+          .query('SELECT * FROM Uzytkownicy WHERE PK_IdUzytkownika = @Id_O2')
+         console.log(result1.recordset[0])
+         res.render('match', { data: result1.recordset[0] })
+        }
+      }
   } catch(err) {
     console.log(err)
   }
+  res.redirect('home')
 }
+
 // show
 function showIndex(req, res) {
   res.render('index')
+}
+
+async function showMatch(req, res) {
+  res.render('match')
 }
 async function showHome(req, res) {
   let data = [];
@@ -138,10 +172,17 @@ async function showHome(req, res) {
     const dbRequest = await request()
 
     const result = await dbRequest
-    .input('imie', sql.VarChar(50), req.session?.userImie)
-    .query('SELECT TOP 1 * FROM Uzytkownicy ORDER BY NEWID()')
+    .input('id', sql.Int, req.session?.userId)
+    .query('SELECT TOP 1 * FROM Uzytkownicy WHERE PK_IdUzytkownika NOT LIKE @id AND PK_IdUzytkownika NOT IN (SELECT FK_IdOcenianego FROM Oceny WHERE FK_IdOceniajacego = @Id) ORDER BY NEWID()')
     data = result.recordset;
+    req.session.userData = data;
     console.log(data)
+    if (!data[0]) {
+      const result1 = await dbRequest
+      .input('Id1', sql.Int, req.session.userId)
+      .query('SELECT COUNT(*) AS Prawyl FROM Oceny WHERE FK_IdOcenianego = @Id1')
+      res.render('profil', { imie: req.session.userImie, prawe: result1.recordset[0].Prawyl, error: "Nie ma już użytkoników :<"})
+    }
   } catch(err){
     console.log(err)
   }
@@ -178,5 +219,6 @@ router.post('/home', homeFunction);
 router.post('/profil', profil);
 router.get('/usun', showUsun);
 router.post('/usun', usunProfil);
+router.get('/match', showMatch);
 
 module.exports = router;

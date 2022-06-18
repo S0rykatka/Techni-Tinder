@@ -12,8 +12,10 @@
     <center><div>
         <label for="opis">Czemu chcesz usunac konto:</label>
         <br>
-        <input type="text" name="opis" id="opis">
-        <input type="submit" value="usun">
+        <form action="/usun" method="post">
+            <input type="text" name="opis" id="opis">
+            <input type="submit" value="usun">
+        </form>
     </div></center>
 </body>
 </html>

@@ -27,16 +27,3 @@ FK_IdOceniajacego INT REFERENCES Uzytkownicy(PK_IdUzytkownika),
 FK_IdOcenianego INT REFERENCES Uzytkownicy(PK_IdUzytkownika),
 Oceny VARCHAR(5) CHECK(Oceny IN('Lewy','Prawy'))
 )
-
-CREATE TABLE PlanLekcji (
-FK_IdPlanLekcji INT REFERENCES Uzytkownicy(PK_IdUzytkownika),
-DzienTyg VARCHAR(5) NOT NULL CHECK(DzienTyg IN('Pon','Wt','Sr','Czw','Pt')),
-Lekcja1 VARCHAR(20),
-Lekcja2 VARCHAR(20),
-Lekcja3 VARCHAR(20),
-Lekcja4 VARCHAR(20),
-Lekcja5 VARCHAR(20),
-Lekcja6 VARCHAR(20),
-Lekcja7 VARCHAR(20),
-Lekcja8 VARCHAR(20)
-)

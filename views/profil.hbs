@@ -9,6 +9,7 @@
 </head>
 <body>
     <h1>Hej {{ imie }}</h1>
+    {{ error }}
     <center><form action="/profil" method="post" class="form">
         <img src="/img/Avatar.jpg">
         <br>
@@ -20,6 +21,7 @@
         <input type="text" name="opis" id="opis">
         <br>
         <input type="submit">
+        {{ prawe }}
         
     </form></center>
         <center><button class="button" onclick="window.location = 'http://localhost:3000/home'">Strona Główna</button></center>

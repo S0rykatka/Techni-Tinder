@@ -7,14 +7,6 @@
     <title>Profile Uzytkownikow</title>
 </head>
 <body>
-    <form action="/profile" method="post">
-        <select name="klasa">
-            <option value="1a"> Klasa 1a </option>
-            <option value="1b"> Klasa 1b </option>
-            <option value="2a"> Klasa 2a </option>
-        </select>
-        <button type="submit">Pokaz</button>
-    </form>
     <table>
         <thead>
             <tr>
@@ -24,19 +16,12 @@
                 <th>Klasa:</th>
                 <th>Opis:</th>
             </tr>
+            {{data.Imie}}
+            {{data.Nazwisko}}
+            {{data.Wiek}}
+            {{data.Klasa}}
+            {{data.Opis}}
         </thead>
-        <tbody>
-            {{!-- Nie działa. --}}
-            {{ #each data }}
-                <tr>
-                    <th>{{ this.Imie }}</th>
-                    <th>{{ this.Nazwisko }}</th>
-                    <th>{{ this.Wiek }}</th>
-                    <th>{{ this.Klasa }}</th>
-                    <th>{{ this.Opis }}</th>
-                </tr>
-            {{ /each }}
-        </tbody>
     </table>
 </body>
 </html>
