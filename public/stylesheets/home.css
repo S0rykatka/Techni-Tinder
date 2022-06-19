@@ -1,24 +1,12 @@
 body {
     background: linear-gradient(to right, rgb(123, 23, 177), rgb(250, 60, 209));
 }
-.opis{
-    margin-left: 10px;
-    font-size: 30px;
+h2{
+    font-size: 15px;
     text-align: center;
     background-color: rgb(55, 55, 55);
     width: 300px;
-    height: 35px;
-    color: white;
-    border-radius: 5px;
-}
-.info_student{
-    margin-left: 950px;
-    margin-top: -530px;
-    font-size: 30px;
-    text-align: center;
-    background-color: rgb(55, 55, 55);
-    width: 300px;
-    height: 35px;
+    height: 20px;
     color: white;
     border-radius: 5px;
 }
@@ -26,19 +14,48 @@ body {
     background-color: white;
     width: 300px;
     height: 500px;
-    margin-top: 10px;
+    margin-top: 30px;
     border-radius: 5px;
     box-shadow: 0.2px 3px 10px 0.2px black;
+    margin-left: 480px;
 }
 
 button{
-    margin-left: 550px;
+    margin-left: 555px;
     width: 150px;
     height: 25px;
+    margin-top: 235px;
     border-radius: 10px;
     box-shadow: 0.2px 3px 10px 0.2px white;
     font-size: 15px;
 }
 button:hover{
     background-color:lightgrey;
+}
+.buttons{
+    margin-top: -505px;
+}
+.lewy{
+    margin-left: 300px;
+}
+.prawy{
+    margin-left: 360px;
+}
+.menu_zd_1{
+    width: 50px;
+    height: 50px;
+    padding: 12.5px;
+}
+.menu_zd_2{
+    width: 50px;
+    height: 50px;
+    padding: 12.5px;
+    margin-top: 420px;
+}
+.menu{
+    height: 575px;
+    width: 75px;
+    background-color: white;
+    margin-top: -535px;
+    border-radius: 10px;
 }
