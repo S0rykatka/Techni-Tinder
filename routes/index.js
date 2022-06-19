@@ -29,11 +29,12 @@ async function login(req, res) {
       req.session.userId = result.recordset[0].PK_IdUzytkownika;
       console.log(req.session.userImie)
       console.log(req.session.userId);
-      const result1 = await dbRequest
-      .input('Id', sql.Int, req.session.userId)
-      .query('SELECT COUNT(*) AS Prawyl FROM Oceny WHERE FK_IdOcenianego = @Id')
-      console.log(req.session.userId)
-      res.render('profil', { imie: req.session.userImie, prawe: result1.recordset[0].Prawyl, error: ""});
+      showProfil(req, res)
+      // const result1 = await dbRequest
+      // .input('Id', sql.Int, req.session.userId)
+      // .query('SELECT COUNT(*) AS Prawyl FROM Oceny WHERE FK_IdOcenianego = @Id')
+      // console.log(req.session.userId)
+      // res.render('profil', { imie: req.session.userImie, prawe: result1.recordset[0].Prawyl, error: ""});
     } else {
       res.render('index', { error: 'Logowanie nieudane'})
     }
@@ -91,21 +92,19 @@ async function rejestracja(req, res) {
 async function profil(req, res) {
   let result;
   var {zdjecie, opis} = req.body;
-  console.log(zdjecie, opis);
 
   try {
     const dbRequest = await request()
 
     const result = await dbRequest
+    .input('Id', sql.Int, req.session.userId)
     .input('Zdjecie', sql.VarChar(60), zdjecie)
     .input('Opis', sql.Text, opis)
-    .query('UPDATE Uzytkownicy SET Opis = @Opis, Zdjecie = @Zdjecie')
-    const result1 = await dbRequest
-    .input('Id', sql.Int, req.session.PK_IdUzytkownika)
-    .query('SELECT COUNT(*) FROM Oceny WHERE FK_IdOcenianego = @Id')
+    .query('UPDATE Uzytkownicy SET Opis = @Opis, Zdjecie = @Zdjecie WHERE PK_IdUzytkownika = @Id')
   } catch(err) {
     console.error(err)
-  }  
+  }
+  showProfil(req, res)
 }
 
 // delete
@@ -183,6 +182,14 @@ async function showHome(req, res) {
       .query('SELECT COUNT(*) AS Prawyl FROM Oceny WHERE FK_IdOcenianego = @Id1')
       res.render('profil', { imie: req.session.userImie, prawe: result1.recordset[0].Prawyl, error: "Nie ma już użytkoników :<"})
     }
+    const result2 = await dbRequest
+    .input('Id2', sql.Int, req.session.userId)
+    .query('SELECT Opis FROM Uzytkownicy WHERE PK_IdUzytkownika = @Id2')
+    console.log(result2.recordset)
+    console.log(result2.recordset === null)
+    if (result2.recordset[0].Opis === null) {
+      showProfil(req, res)
+    }
   } catch(err){
     console.log(err)
   }
@@ -197,11 +204,63 @@ async function showRejestracja(req, res) {
 }
 
 async function showProfil(req, res) {
-  res.render('profil')
+  let info = []
+  let id = req.session.userId;
+  let lewy = null
+  let prawy = null
+  try {
+    const dbRequest = await request()
+    const result = await dbRequest
+    .input('Id', sql.Int, id)
+    .query('SELECT * FROM Uzytkownicy WHERE PK_IdUzytkownika = @Id')    
+    info = result.recordset[0];
+    let opis = info.Opis
+    let zdjecie = info.Zdjecie
+    console.log(info)
+  }catch (err) {
+    console.log(err)
+  }
+  try {
+    const dbRequest = await request()
+    const result = await dbRequest
+    .input('Id', sql.Int, id)
+    .input('Prawy', sql.VarChar(10), 'Prawy')
+    .query('SELECT COUNT(*) AS Prawy FROM Oceny WHERE FK_IdOcenianego = @Id AND Oceny = @Prawy')
+    prawy = result.recordset[0].Prawy
+    console.log(result.recordset[0])
+  }catch (err) {
+    console.log(err)
+  }
+  try {
+    const dbRequest = await request()
+    const result = await dbRequest
+    .input('Id', sql.Int, id)
+    .input('Lewy', sql.VarChar(10), 'Lewy')
+    .query('SELECT COUNT(*) AS Lewy FROM Oceny WHERE FK_IdOcenianego = @Id AND Oceny = @Lewy')
+    lewy = result.recordset[0].Lewy
+    console.log(result.recordset[0])
+  } catch (err) {
+    console.log(err)
+  }
+  res.render('profil', { imie: req.session.userImie, opis: info.Opis, zdjecie: info.Zdjecie, lewy: lewy, prawy: prawy })
 }
 
 async function showUsun(req, res) {
   res.render('usun')
+}
+async function showUzytkownicy(req, res) {
+  let uzytkownicy = [];
+  try {
+    const dbRequest = await request()
+    const result = await dbRequest
+
+    .query('SELECT * FROM Uzytkownicy')
+    uzytkownicy = result.recordset
+    console.log(uzytkownicy)
+  } catch(err) {
+    console.log(err)
+  }
+  res.render('uzytkownicy', { uzytkownicy: uzytkownicy})
 }
 
 async function logout(req,res) {
@@ -226,5 +285,7 @@ router.post('/profil', profil);
 router.get('/usun', showUsun);
 router.post('/usun', usunProfil);
 router.get('/match', showMatch);
+//uzytkownicy
+router.get('/uzytkownicy', showUzytkownicy);
 
 module.exports = router;

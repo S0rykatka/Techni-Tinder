@@ -16,7 +16,7 @@
         <img src="/img/wyjscie.jpg" class="menu_zd_3" onclick="window.location = 'http://localhost:3000'">
     </div>
     <center><form action="/profil" method="post" class="form">
-        <img src="/img/Avatar.jpg">
+        <img src="{{ zdjecie }}" alt="twoje zdjecie:)">
         <br>
         <label for="zdjecie">Wstaw ścieżkę zdjęcia:</label>
         <input type="text" name="zdjecie" id="zdjecie">
@@ -25,17 +25,18 @@
         <br>
         <input type="text" name="opis" id="opis">
         <br>
-        <input type="submit">
+        <h2>Twój opis:</h2>
+        <p>{{ opis }}</p>
+        <h2>Tyle zostałeś kliknięty w lewo:</h2>
+        <p>{{ lewy }}</p>
+        <h2>Tyle zostałeś kliknięty w prawo:</h2>
+        <p>{{ prawy }}</p>
         {{ prawe }}
-        
+        <input type="submit">
     </form></center>
-<<<<<<< HEAD
         <center><button class="button" onclick="window.location = 'http://localhost:3000/home'">Strona Główna</button></center>
         <center><button class="button" onclick="window.location = 'http://localhost:3000/usun'">Usun profil?</button></center>
         <center><button class="button" onclick="window.location='http://localhost:3000/'">Wyloguj</button></center>
-=======
-        {{!-- <center><button class="button" onclick="window.location = 'http://localhost:3000/home'">Strona Główna</button></center>
-        <center><button class="button" onclick="window.location = 'http://localhost:3000/usun'">Usun profil?</button></center> --}}
->>>>>>> fb347867dad616260900b5b38125f518af8ca4e3
+        <center><button class="button" onclick="window.location='http://localhost:3000/uzytkownicy'">Pokaz Uzytkownikow</button></center>
 </body>
 </html>

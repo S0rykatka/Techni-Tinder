@@ -9,28 +9,10 @@
 </head>
 <body>
     <form action="/home" method="get" class="box">
-    <thead>
-        <tr>
-            <center><th>Zdjecie</th></center>
-            <br><br>
-            <h2>Informacje</h2>
-            <div class="box_info">
-                <th>Imie: </th>
-                <br><br>
-                <th>Nazwisko: </th>
-                <br><br>
-                <th>Wiek: </th>
-                <br><br>
-                <th>Klasa: </th>
-            </div>
-            <h2>Opis</h2>
-            <th>Opis</th> 
-        </tr>
-    </thead>
-    <tbody class="info_student">
+    <thead class="info_student">
         {{#each data}}
         <tr>
-            <center><td>{{ this.Zdjecie }}</td></center>
+            <center><img src="{{ this.Zdjecie}}" width="250px" height="250px"></center>
             <br><br>
             <h2>Informacje</h2>
             <div class="box_info">
@@ -46,13 +28,12 @@
             <td>{{ this.Opis }}</td> 
         </tr>
         {{/each}}
-    </tbody>
+    </thead>
     </form>
     <form action="/home" method="post" class="buttons">
         <button type="submit" value="Lewy" name="click" class="lewy">left</button>
         <button type="submit" value="Prawy" name="click" class="prawy">right</button>
     </form>
-    <button class="button">Dalej</button>
     <div class="menu">
         <img src="/img/profilowe.jpg" class="menu_zd_1" onclick="window.location = 'http://localhost:3000/profil'">
         <img src="/img/wyjscie.jpg" class="menu_zd_2" onclick="window.location = 'http://localhost:3000'">

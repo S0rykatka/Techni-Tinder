@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./stylesheets/uzytkownicy.css">
+    <title>Profile Uzytkownikow</title>
+</head>
+<body>
+    <h1>Tu są wszyscy użytkownicy</h1>
+    <center><table class="table">
+    <thead>
+        <tr>
+            <td>Zdjecie:</td>
+            <td>Imie:</td>
+            <td>Nazwisko:</td>
+            <td>Wiek:</td>
+            <td>Klasa:</td>
+            <td>Opis:</td>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each uzytkownicy }}
+        <tr>
+            <td><img src="{{ this.Zdjecie }}" alt="zdjecie uzytkownika" width="250px" height="250px"></td>
+            <td>{{ this.Imie }}</td>
+            <td>{{ this.Nazwisko }}</td>
+            <td>{{ this.Wiek }}</td>
+            <td>{{ this.Klasa }}</td>
+            <td>{{ this.Opis }}</td>
+        </tr>
+        {{/each}}
+    </tbody>
+    </table></center>
+    <center><button class="button" onclick="window.location = 'http://localhost:3000/profil'">Wróć do profilu</button></center>
+</body>
+</html>
