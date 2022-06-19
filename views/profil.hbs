@@ -10,6 +10,11 @@
 <body>
     <h1>Hej {{ imie }}</h1>
     {{ error }}
+    <div class="menu">
+        <img src="/img/domek.jpg" class="menu_zd_1" onclick="window.location = 'http://localhost:3000/home'">
+        <img src="/img/kosz.jpg" class="menu_zd_2" onclick="window.location = 'http://localhost:3000/usun'">
+        <img src="/img/wyjscie.jpg" class="menu_zd_3" onclick="window.location = 'http://localhost:3000'">
+    </div>
     <center><form action="/profil" method="post" class="form">
         <img src="/img/Avatar.jpg">
         <br>
@@ -24,8 +29,13 @@
         {{ prawe }}
         
     </form></center>
+<<<<<<< HEAD
         <center><button class="button" onclick="window.location = 'http://localhost:3000/home'">Strona Główna</button></center>
         <center><button class="button" onclick="window.location = 'http://localhost:3000/usun'">Usun profil?</button></center>
         <center><button class="button" onclick="window.location='http://localhost:3000/'">Wyloguj</button></center>
+=======
+        {{!-- <center><button class="button" onclick="window.location = 'http://localhost:3000/home'">Strona Główna</button></center>
+        <center><button class="button" onclick="window.location = 'http://localhost:3000/usun'">Usun profil?</button></center> --}}
+>>>>>>> fb347867dad616260900b5b38125f518af8ca4e3
 </body>
 </html>
