@@ -204,8 +204,14 @@ async function showUsun(req, res) {
   res.render('usun')
 }
 
+async function logout(req,res) {
+  req.session.destroy()
+  res.render('index')
+}
+
 // index
 router.get('/', showIndex);
+router.get('/', logout);
 // login
 router.get('/profil', showProfil);
 router.post('/', login);
